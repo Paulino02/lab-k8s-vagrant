@@ -110,9 +110,12 @@ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bas
 
 # Install metrics-server
 echo "Installing metrics-server..."
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+helm repo update
 helm install metrics-server metrics-server/metrics-server \
   --namespace kube-system \
-  --set args="{--kubelet-insecure-tls}"
+  --set "args={--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname,--metric-resolution=15s}"
+
 
 # Install OpenEBS CSI driver
 echo "Installing OpenEBS CSI driver..."
