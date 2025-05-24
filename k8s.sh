@@ -104,13 +104,15 @@ kubectl taint nodes --all node-role.kubernetes.io/control-plane:NoSchedule-
 echo "Installing calico network plugin..."
 kubectl apply -f https://docs.projectcalico.org/v3.25/manifests/calico.yaml
 
-# Install metrics-server
-echo "Installing metrics-server..."
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-
 # Install Helm
 echo "Installing Helm..."
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+# Install metrics-server
+echo "Installing metrics-server..."
+helm install metrics-server metrics-server/metrics-server \
+  --namespace kube-system \
+  --set args="{--kubelet-insecure-tls}"
 
 # Install OpenEBS CSI driver
 echo "Installing OpenEBS CSI driver..."
@@ -128,6 +130,12 @@ kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"st
 echo "install metal-lb"
 helm repo add metallb https://metallb.github.io/metallb
 helm install metallb metallb/metallb --namespace metallb-system --create-namespace
+
+echo "Waiting for MetalLB controller to be ready..."
+kubectl wait --namespace metallb-system \
+  --for=condition=Available deployment/metallb-controller \
+  --timeout=60s
+
 echo "Applying MetalLB IP address pool config..."
 cat <<EOF | kubectl apply -f -
 apiVersion: metallb.io/v1beta1
@@ -147,8 +155,10 @@ metadata:
 EOF
 
 # nginx
-echo "install ingress-controller"
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+  --namespace ingress-nginx --create-namespace \
+  --set controller.service.type=LoadBalancer \
+  --set controller.minReadySeconds=0 \
+  --set controller.progressDeadlineSeconds=10
 
 echo "Installation completed successfully!"

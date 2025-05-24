@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
     # Script de instação do k8s
     k8s.vm.provision "shell", path: "k8s.sh"
   
-    # Adicionando memória (ex: 4096 MB)
+    # Adicionando memória
     k8s.vm.provider "virtualbox" do |vb|
       vb.memory = "5096"
       vb.cpus = 2
