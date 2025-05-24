@@ -1,0 +1,22 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+
+  # Kubernetes cluster VM
+  config.vm.define "k8s" do |k8s|
+    k8s.vm.hostname = "k8s"
+    k8s.vm.network "private_network", ip: "192.168.56.11"
+    k8s.vm.network "private_network", ip: "192.168.56.12"
+    k8s.vm.network "private_network", ip: "192.168.56.13"
+    k8s.vm.network "private_network", ip: "192.168.56.14"
+    k8s.vm.network "private_network", ip: "192.168.56.15"
+  
+    # Script de instação do k8s
+    k8s.vm.provision "shell", path: "k8s.sh"
+  
+    # Adicionando memória (ex: 4096 MB)
+    k8s.vm.provider "virtualbox" do |vb|
+      vb.memory = "5096"
+      vb.cpus = 2
+    end
+  end
+end
