@@ -5,3 +5,6 @@ helm install metallb metallb/metallb --namespace metal-lb --create-namespace
 # nginx
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace
+
+
+echo "192.168.56.12 nginx.local" | sudo tee -a /etc/hosts

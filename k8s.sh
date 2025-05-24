@@ -134,7 +134,7 @@ helm install metallb metallb/metallb --namespace metallb-system --create-namespa
 echo "Waiting for MetalLB controller to be ready..."
 kubectl wait --namespace metallb-system \
   --for=condition=Available deployment/metallb-controller \
-  --timeout=60s
+  --timeout=240s
 
 echo "Applying MetalLB IP address pool config..."
 cat <<EOF | kubectl apply -f -
@@ -155,6 +155,8 @@ metadata:
 EOF
 
 # nginx
+echo "ingress controller "
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm install ingress-nginx ingress-nginx/ingress-nginx \
   --namespace ingress-nginx --create-namespace \
   --set controller.service.type=LoadBalancer \
