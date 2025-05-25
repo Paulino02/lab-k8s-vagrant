@@ -110,9 +110,12 @@ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bas
 
 # Install metrics-server
 echo "Installing metrics-server..."
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+helm repo update
 helm install metrics-server metrics-server/metrics-server \
   --namespace kube-system \
-  --set args="{--kubelet-insecure-tls}"
+  --set "args={--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname,--metric-resolution=15s}"
+
 
 # Install OpenEBS CSI driver
 echo "Installing OpenEBS CSI driver..."
@@ -134,7 +137,7 @@ helm install metallb metallb/metallb --namespace metallb-system --create-namespa
 echo "Waiting for MetalLB controller to be ready..."
 kubectl wait --namespace metallb-system \
   --for=condition=Available deployment/metallb-controller \
-  --timeout=60s
+  --timeout=240s
 
 echo "Applying MetalLB IP address pool config..."
 cat <<EOF | kubectl apply -f -
@@ -155,6 +158,8 @@ metadata:
 EOF
 
 # nginx
+echo "ingress controller "
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm install ingress-nginx ingress-nginx/ingress-nginx \
   --namespace ingress-nginx --create-namespace \
   --set controller.service.type=LoadBalancer \
