@@ -27,7 +27,7 @@ https://developer.hashicorp.com/vagrant/install
    ```
    Isso irá gerar os arquivos de certificado, chave, CA, etc.
 
-3. **Configurar o arquivo hosts no Windows**
+3. **Configurar o arquivo hosts**
 
    - Abra o PowerShell como administrador.
    - Execute:
@@ -37,6 +37,10 @@ https://developer.hashicorp.com/vagrant/install
    - Adicione a linha abaixo ao arquivo e salve:
      ```
      192.168.56.12 meu.dominio.com
+     ```
+   - No linux  
+     ```bash
+     echo '192.168.56.12 meu.dominio.com' | sudo tee -a /etc/hosts
      ```
 
 4. **Criar o Secret TLS no Kubernetes com os arquivos gerados**
