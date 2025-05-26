@@ -12,6 +12,9 @@ Vagrant.configure("2") do |config|
   
     # Script de instalação do k8s
     k8s.vm.provision "shell", path: "k8s.sh"
+
+    # Script de criação do certificado https
+    k8s.vm.provision "shell", path: "generate_cert.sh"
     
     # Compartilha a pasta C:\Users\Arklok\lab-k8s-vagrant no Windows com /vagrant_data na VM
     k8s.vm.synced_folder "C:/Users/Arklok/lab-k8s-vagrant", "/vagrant_data"
