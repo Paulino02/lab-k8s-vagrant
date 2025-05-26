@@ -7,8 +7,8 @@ if [ "$#" -ne 2 ]; then
   exit 1
 fi
 
-DNS_NAME=$1
-IP_ADDR=$2
+DNS_NAME="nginx.local"  #$1
+IP_ADDR="192.168.56.12" #$2
 
 # Arquivos da CA
 CA_KEY="myCA.key"
