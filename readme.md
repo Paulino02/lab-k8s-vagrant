@@ -40,7 +40,7 @@ https://developer.hashicorp.com/vagrant/install
      ```
    - No linux  
      ```bash
-     echo '192.168.56.12 meu.dominio.com' | sudo tee -a /etc/hosts
+     echo '192.168.56.12 nginx.local' | sudo tee -a /etc/hosts
      ```
 
 4. **Criar o Secret TLS no Kubernetes com os arquivos gerados**
