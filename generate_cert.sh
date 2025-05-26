@@ -3,12 +3,12 @@
 # Verifica os argumentos
 if [ "$#" -ne 2 ]; then
   echo "Uso: $0 <DNS> <IP>"
-  echo "Exemplo: $0 exemplo.local 192.168.1.100"
+  echo "Exemplo: $0 nginx.local 192.168.56.12"
   exit 1
 fi
 
-DNS_NAME=$1
-IP_ADDR=$2
+DNS_NAME="nginx.local"  #$1
+IP_ADDR="192.168.56.12" #$2
 
 # Arquivos da CA
 CA_KEY="myCA.key"

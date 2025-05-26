@@ -45,21 +45,18 @@ https://developer.hashicorp.com/vagrant/install
 
 4. **Criar o Secret TLS no Kubernetes com os arquivos gerados**
 
-   Considerando que seu certificado e chave foram gerados como `local.crt` e `local.key` (substitua conforme o nome gerado):
+   Considerando que seu certificado e chave foram gerados como `nginx.local.crt` e `nginx.local.key` (substitua conforme o nome gerado):
 
    ```bash
-   kubectl create secret tls local-tls --cert=local.crt --key=local.key
+   kubectl create secret tls local-tls --cert=nginx.local.crt --key=nginx.local.key
    ```
 
 5. **Copiar os arquivos CA para a pasta compartilhada para importação no browser**
 
    ```bash
-   cp myCA.der /vagrant_data/
-   cp mycert.pfx /vagrant_data/
+   cp myCA.crt /vagrant_data/
    ```
 
 6. **Importar o CA no browser (exemplo no Windows)**
 
-   - Copie o arquivo `myCA.der` para sua máquina Windows.
-   - No Windows, abra `certmgr.msc` (Gerenciador de Certificados).
-   - Importe o certificado CA (`myCA.der`) na "Autoridade de Certificação Raiz Confiável".
+   - Copie o arquivo `myCA.crt` para seu browser
