@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     k8s.vm.provision "shell", path: "generate_cert.sh"
     
     # Compartilha a pasta C:\Users\Arklok\lab-k8s-vagrant no Windows com /vagrant_data na VM
-    k8s.vm.synced_folder "C:/Users/Arklok/lab-k8s-vagrant", "/vagrant_data"
+    k8s.vm.synced_folder "/home/tiago/lab-k8s-vagrant", "/vagrant_data"
     
     # Adicionando memória e CPU
     k8s.vm.provider "virtualbox" do |vb|

@@ -1,14 +1,8 @@
 #!/bin/bash
 
-# Verifica os argumentos
-if [ "$#" -ne 2 ]; then
-  echo "Uso: $0 <DNS> <IP>"
-  echo "Exemplo: $0 nginx.local 192.168.56.12"
-  exit 1
-fi
-
-DNS_NAME="nginx.local"  #$1
-IP_ADDR="192.168.56.12" #$2
+# DNS e IP fixos definidos no próprio script
+DNS_NAME="nginx.local"
+IP_ADDR="192.168.56.12"
 
 # Arquivos da CA
 CA_KEY="myCA.key"
